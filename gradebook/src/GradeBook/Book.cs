@@ -22,28 +22,18 @@ namespace GradeBook
 
     public Statistics GetStats()
     {
-      double total = 0, lowGrade = this.Grades.ElementAt(0), highGrade = this.Grades.ElementAt(0);
+      var res = new Statistics();
 
       this.Grades.ForEach(grade =>
       {
-        if (grade < lowGrade)
-        {
-          lowGrade = grade;
-        }
-        else if (grade > highGrade)
-        {
-          highGrade = grade;
-        }
-
-        total += grade;
+        res.Low = Math.Min(grade, res.Low);
+        res.High = Math.Max(grade, res.High);
+        res.Average += grade;
       });
 
-      return new Statistics
-      {
-        Average = total / this.Grades.Count,
-        High = highGrade,
-        Low = lowGrade
-      };
+      res.Average /= this.Grades.Count;
+
+      return res;
     }
   }
 }
